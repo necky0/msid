@@ -24,6 +24,7 @@ def target_output(x):
 
 
 def plot_model(subplot, x_train, y_train, x, y_obj, y_model, x_val=None, y_val=None, train_err=None, val_err=None):
+    # super zabawa z tymi komitami xD
     x_min = np.min([np.min(x_train), np.min(x)])
     x_max = np.max([np.max(x_train), np.max(x)])
     y_min = -1.5
