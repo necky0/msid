@@ -79,15 +79,11 @@ def model_selection(x_train, y_train, x_val, y_val, M_values):
 
     val = []
     for m in M_values:
-        w, _ = least_squares(x_train, y_train, m)
-        err = mean_squared_error(x_val, y_val, w)
-        val.append((w, err))
+        w, train_err = least_squares(x_train, y_train, m)
+        val_err = mean_squared_error(x_val, y_val, w)
+        val.append((w, train_err, val_err))
 
-    w, val_err = min(val, key=lambda e: e[1])
-
-    train_err = mean_squared_error(x_train, y_train, w)
-
-    return w, train_err, val_err
+    return min(val, key=lambda e: e[2])
 
 
 def regularized_model_selection(x_train, y_train, x_val, y_val, M, lambda_values):
@@ -105,13 +101,9 @@ def regularized_model_selection(x_train, y_train, x_val, y_val, M, lambda_values
 
     val = []
     for regularization_lambda in lambda_values:
-        w, _ = regularized_least_squares(x_train, y_train, M, regularization_lambda)
-        err = mean_squared_error(x_val, y_val, w)
-        val.append((w, err, regularization_lambda))
+        w, train_err = regularized_least_squares(x_train, y_train, M, regularization_lambda)
+        val_err = mean_squared_error(x_val, y_val, w)
+        val.append((w, train_err, val_err, regularization_lambda))
 
-    w, val_err, regularization_lambda = min(val, key=lambda e: e[1])
-
-    train_err = mean_squared_error(x_train, y_train, w)
-
-    return w, train_err, val_err, regularization_lambda
+    return min(val, key=lambda e: e[2])
 
